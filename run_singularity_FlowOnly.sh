@@ -31,7 +31,7 @@
 # --- You will need to change the lines below -----------------------------
  
 # Set number of partitions (this script only works for one node)
-nPart=64
+nPart=24
 
 # Set the path to the folder containing the singularity image and the execute_singularity.sh script. For example: 
 singularitydir=/software/projects/pawsey0106/cgrimaldi/Singularity/
@@ -82,12 +82,15 @@ else
     echo computation...
     # mpiexec is executed inside run_dimr.sh    
     # "-p": See above. Arguments after "run_dimr.sh" are explained in run_dimr.sh
-    $singularitydir/execute_singularity.sh -p 2 run_dimr.sh -m $dimrFile -c $nPart
+    $singularitydir/execute_singularity.sh -p 2 run_dflowfm.sh -m $mduFile -c $nPart
 
     # Finally: combine output files    
     # Optionally merge the map output files together into one file
-    #cd $PWD #path/to/directory/containing/the/dflowfm/output/files
-    # "-p": See above. Arguments after "run_dfmoutput.sh" are explained in run_dfmoutput.sh
-    #$singularitydir/execute_singularity.sh -p 2 run_dfmoutput.sh -- -d mapmerge --infile f34_0000_map.nc f34_0001_map.nc f34_0002_map.nc --outfile f34_map.nc
-    #cd jump/back
+    cd $PWD/FlowFM/DFM_OUTPUT_FlowFM
+        $singularitydir/execute_singularity.sh -p 2 run_dfmoutput.sh -- -d mapmerge --infile \
+    	FlowFM_0000_map.nc FlowFM_0001_map.nc FlowFM_0002_map.nc FlowFM_0003_map.nc FlowFM_0004_map.nc \
+    	FlowFM_0005_map.nc FlowFM_0006_map.nc FlowFM_0007_map.nc FlowFM_0008_map.nc FlowFM_0009_map.nc \
+    	FlowFM_0010_map.nc FlowFM_0011_map.nc FlowFM_0012_map.nc FlowFM_0013_map.nc FlowFM_0014_map.nc \
+    	FlowFM_0015_map.nc FlowFM_0016_map.nc FlowFM_0017_map.nc FlowFM_0018_map.nc FlowFM_0019_map.nc \
+    	FlowFM_0020_map.nc FlowFM_0021_map.nc FlowFM_0022_map.nc FlowFM_0023_map.nc --outfile FlowFM_map.nc
 fi
